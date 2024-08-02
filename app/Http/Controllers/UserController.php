@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\User\StoreRequest;
 use App\Models\User;
 use App\Traits\JsonResponses;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -35,5 +37,19 @@ class UserController extends Controller
         $data = $query->offset($offset)->limit($perPage)->orderBy($sortBy, $sortOrder)->get();
 
         return $this->successResponse("", ['data' => $data, 'total' => $total]);
+    }
+
+    public function me()
+    {
+        return $this->successResponse("", ["user" => Auth::user()]);
+    }
+
+    public function store(StoreRequest $request)
+    {
+        $data = $request->only(["name", "email", "password"]);
+        $create = User::create($data);
+        if (!$create) return $this->errorResponse("Unexpected problem occurred");
+
+        return $this->successResponse("User added successfully", ["user" =>  $create]);
     }
 }

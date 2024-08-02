@@ -31,5 +31,7 @@ Route::group(["prefix" => "auth"], function (){
 Route::group(["middleware" => "jwt.verify"], function (){
     Route::group(["prefix" => "users"], function (){
         Route::get("/", [UserController::class, "index"]);
+        Route::post("/", [UserController::class, "store"]);
+        Route::get("/me", [UserController::class, "me"]);
     });
 });
