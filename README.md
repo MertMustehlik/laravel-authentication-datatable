@@ -50,3 +50,5 @@ Server is started: http://127.0.0.1:8000.
 ### Users
 
 - `GET /api/users`: List all users.
+- `POST /api/users`: Create new user.
+- `GET /api/users/me`: Get user details.
